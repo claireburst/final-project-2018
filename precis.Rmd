@@ -1,0 +1,41 @@
+---
+title: "Final Project"
+author: "Claire Fridkin"
+date: "10/17/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+library(tidyverse)
+library(readxl)
+library(janitor)
+library(knitr)
+```
+
+
+###**Precis**
+
+At this point, for my final project, I plan to analyze the career (the rise, the fall, the highs, the lows, whatever I can discern) of my favorite actor, Nicolas Cage. I contacted a former FiveThirtyEight employee who wrote culture/lifestyle articles, and he was able to provide me with some base data on Nicolas Cage movies. I may obtain more later, we will see, but I have a pretty reasonable amount to start analyzing data. Below, I'll provide some simple summary stats and tables. 
+
+**Summary**
+
+```{r}
+data <- read_excel("NIC CAGE.xlsx") %>%
+  clean_names()
+summary(data)
+```
+
+**Sample Table**
+```{r}
+sampletable <- data %>%
+  select(movie, total_box_office) %>%
+  arrange(desc(total_box_office)) %>%
+  slice(1:5)
+
+sampletable %>%
+  kable(caption = "Top 5 Grossing Nicolas Cage Movies") 
+
+
+```
+
