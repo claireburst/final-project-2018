@@ -1,0 +1,12 @@
+---
+title: "Final Project"
+author: "Claire Fridkin"
+date: "10/17/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Final Project Document
