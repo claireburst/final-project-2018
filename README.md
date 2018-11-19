@@ -1,2 +1,3 @@
 # final-project-2018
-I'm sure I'll add something here later; for now, check out the precis!
+
+My final project for GOV1005 (Data): a large scale analysis of Nicolas Cage's filmography.  
