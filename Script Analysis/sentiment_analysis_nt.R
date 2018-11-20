@@ -49,5 +49,5 @@ nt_plot <- tidy_nt %>%
   mutate(sentiment = positive - negative)
 
 nt_plot %>%
-  ggplot(aes(index, sentiment)) +
+  ggplot(aes(index, sentiment, fill = sentiment)) +
   geom_bar(stat = "identity", show.legend = FALSE)

@@ -51,6 +51,6 @@ arizona_plot <- tidy_arizona %>%
   mutate(sentiment = positive - negative)
 
 arizona_plot %>%
-  ggplot(aes(index, sentiment)) +
+  ggplot(aes(index, sentiment, fill = sentiment)) +
   geom_bar(stat = "identity", show.legend = FALSE)
 

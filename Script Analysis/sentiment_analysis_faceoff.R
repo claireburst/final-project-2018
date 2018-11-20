@@ -49,5 +49,5 @@ faceoff_plot <- tidy_faceoff %>%
   mutate(sentiment = positive - negative)
 
 faceoff_plot %>%
-  ggplot(aes(index, sentiment)) +
+  ggplot(aes(index, sentiment, fill = sentiment)) +
   geom_bar(stat = "identity", show.legend = FALSE)

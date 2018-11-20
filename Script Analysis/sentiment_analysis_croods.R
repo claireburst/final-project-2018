@@ -51,6 +51,6 @@ croods_plot <- tidy_croods %>%
   mutate(sentiment = positive - negative)
 
 croods_plot %>%
-  ggplot(aes(index, sentiment)) +
+  ggplot(aes(index, sentiment, fill = sentiment)) +
   geom_bar(stat = "identity", show.legend = FALSE)
 
