@@ -50,6 +50,6 @@ nt2_plot <- tidy_nt2 %>%
   mutate(sentiment = positive - negative)
 
 nt2_plot %>%
-  ggplot(aes(index, sentiment)) +
+  ggplot(aes(index, sentiment, fill = sentiment)) +
   geom_bar(stat = "identity", show.legend = FALSE)
 
