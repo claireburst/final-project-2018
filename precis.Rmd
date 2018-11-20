@@ -21,7 +21,7 @@ At this point, for my final project, I plan to analyze the career (the rise, the
 **Summary**
 
 ```{r}
-data <- read_excel("NIC CAGE.xlsx") %>%
+data <- read_excel("NIC_CAGE.xlsx") %>%
   clean_names()
 summary(data)
 write_rds(data, "data.rds")
