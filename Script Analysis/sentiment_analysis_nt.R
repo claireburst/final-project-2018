@@ -6,19 +6,19 @@ library(XML)
 library(janitor)
 library(fs)
 
-faceoff <- paste(readLines("FaceOffScript.htm"))
+nt <- paste(readLines("./Script Analysis/NationalTreasureScript.htm"))
 
-faceoff <- data.frame(faceoff, stringsAsFactors = FALSE) %>%
-  filter(faceoff != "")
-  
-tidy_faceoff <- faceoff %>%
-  unnest_tokens(word, faceoff)
+nt <- data.frame(nt, stringsAsFactors = FALSE) %>%
+  filter(!nt %in% c("", " "))
 
-faceoff_sentiment <- tidy_faceoff %>%
+tidy_nt <- nt %>%
+  unnest_tokens(word, nt)
+
+nt_sentiment <- tidy_nt %>%
   inner_join(get_sentiments("bing")) %>%
   count(word, sentiment)
 
-top_faceoff <- faceoff_sentiment %>%
+top_nt <- nt_sentiment %>%
   # Group by sentiment
   group_by(sentiment) %>%
   # Take the top 10 for each sentiment
@@ -27,17 +27,27 @@ top_faceoff <- faceoff_sentiment %>%
   # Make word a factor in order of n
   mutate(word = reorder(word, n))
 
-top_faceoff %>%
+top_nt %>%
   ggplot(aes(word, n, fill = sentiment)) +
   geom_col(show.legend = FALSE) +
   facet_wrap(~sentiment, scales = "free") +  
   coord_flip()
 
-faceoff_sentiment2 <- tidy_faceoff %>%
+nt_sentiment2 <- tidy_nt %>%
   inner_join(get_sentiments("afinn")) %>%
   arrange(score) %>%
   mutate(average = mean(score))
 
-faceoff_sentiment2 %>%
+nt_sentiment2 %>%
   ggplot(aes(x = score)) + geom_bar(fill = "skyblue")
 
+nt_plot <- tidy_nt %>%
+  inner_join(get_sentiments("bing")) %>%
+  mutate(row = row_number()) %>%
+  count(index =  row %/% 10, sentiment) %>%
+  spread(sentiment, n, fill = 0) %>%
+  mutate(sentiment = positive - negative)
+
+nt_plot %>%
+  ggplot(aes(index, sentiment)) +
+  geom_bar(stat = "identity", show.legend = FALSE)
