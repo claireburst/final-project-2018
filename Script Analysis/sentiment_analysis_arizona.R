@@ -19,6 +19,8 @@ arizona_sentiment <- tidy_arizona %>%
   inner_join(get_sentiments("bing")) %>%
   count(word, sentiment)
 
+write_rds(arizona_sentiment, "nicolas_cage_analysis/arizona_sentiment.rds")
+
 top_arizona <- arizona_sentiment %>%
   # Group by sentiment
   group_by(sentiment) %>%
@@ -39,6 +41,8 @@ arizona_sentiment2 <- tidy_arizona %>%
   arrange(score) %>%
   mutate(average = mean(score))
 
+write_rds(arizona_sentiment2, "nicolas_cage_analysis/arizona_sentiment2.rds")
+
 arizona_sentiment2 %>%
   ggplot(aes(x = score)) + geom_bar(fill = "skyblue")
 
@@ -49,6 +53,8 @@ arizona_plot <- tidy_arizona %>%
   count(index =  row %/% 10, sentiment) %>%
   spread(sentiment, n, fill = 0) %>%
   mutate(sentiment = positive - negative)
+
+write_rds(arizona_plot, "nicolas_cage_analysis/arizona_plot.rds")
 
 arizona_plot %>%
   ggplot(aes(index, sentiment, fill = sentiment)) +

@@ -18,6 +18,8 @@ faceoff_sentiment <- tidy_faceoff %>%
   inner_join(get_sentiments("bing")) %>%
   count(word, sentiment)
 
+write_rds(faceoff_sentiment, "nicolas_cage_analysis/faceoff_sentiment.rds")
+
 top_faceoff <- faceoff_sentiment %>%
   # Group by sentiment
   group_by(sentiment) %>%
@@ -38,6 +40,8 @@ faceoff_sentiment2 <- tidy_faceoff %>%
   arrange(score) %>%
   mutate(average = mean(score))
 
+write_rds(faceoff_sentiment2, "nicolas_cage_analysis/faceoff_sentiment2.rds")
+
 faceoff_sentiment2 %>%
   ggplot(aes(x = score)) + geom_bar(fill = "skyblue")
 
@@ -47,6 +51,8 @@ faceoff_plot <- tidy_faceoff %>%
   count(index =  row %/% 10, sentiment) %>%
   spread(sentiment, n, fill = 0) %>%
   mutate(sentiment = positive - negative)
+
+write_rds(faceoff_plot, "nicolas_cage_analysis/faceoff_plot.rds")
 
 faceoff_plot %>%
   ggplot(aes(index, sentiment, fill = sentiment)) +

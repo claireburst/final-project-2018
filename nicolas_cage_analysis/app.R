@@ -1,4 +1,34 @@
 library(shiny)
+library(tidyverse)
+library(dplyr)
+library(ggrepel)
+library(plotly)
+
+# Raising Arizona movie data
+arizona_sentiment <- read_rds("./nicolas_cage_analysis/arizona_sentiment.rds")
+arizona_sentiment2 <- read_rds("./nicolas_cage_analysis/arizona_sentiment2.rds")
+arizona_plot <- read_rds("./nicolas_cage_analysis/arizona_plot.rds")
+
+# The Croods movie data
+croods_sentiment <- read_rds("./nicolas_cage_analysis/croods_sentiment.rds")
+croods_sentiment2 <- read_rds("./nicolas_cage_analysis/croods_sentiment2.rds")
+croods_plot <- read_rds("./nicolas_cage_analysis/croods_plot.rds")
+
+# Face/Off movie data
+faceoff_sentiment <- read_rds("./nicolas_cage_analysis/faceoff_sentiment.rds")
+faceoff_sentiment2 <- read_rds("./nicolas_cage_analysis/faceoff_sentiment2.rds")
+faceoff_plot <- read_rds("./nicolas_cage_analysis/faceoff_plot.rds")
+
+# National Treasure movie data
+nt_sentiment <- read_rds("./nicolas_cage_analysis/nt_sentiment.rds")
+nt_sentiment2 <- read_rds("./nicolas_cage_analysis/nt_sentiment2.rds")
+nt_plot <- read_rds("./nicolas_cage_analysis/nt_plot.rds")
+
+# National Treasure 2 movie data
+nt2_sentiment <- read_rds("./nicolas_cage_analysis/nt2_sentiment.rds")
+nt2_sentiment2 <- read_rds("./nicolas_cage_analysis/nt2_sentiment2.rds")
+nt2_plot <- read_rds("./nicolas_cage_analysis/nt2_plot.rds")
+
 
 # Define UI for application that draws a histogram
 ui <- fluidPage(

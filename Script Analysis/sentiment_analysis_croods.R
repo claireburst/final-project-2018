@@ -19,6 +19,8 @@ croods_sentiment <- tidy_croods %>%
   inner_join(get_sentiments("bing")) %>%
   count(word, sentiment)
 
+write_rds(croods_sentiment, "nicolas_cage_analysis/croods_sentiment.rds")
+
 top_croods <- croods_sentiment %>%
   # Group by sentiment
   group_by(sentiment) %>%
@@ -39,6 +41,8 @@ croods_sentiment2 <- tidy_croods %>%
   arrange(score) %>%
   mutate(average = mean(score))
 
+write_rds(croods_sentiment2, "nicolas_cage_analysis/croods_sentiment2.rds")
+
 croods_sentiment2 %>%
   ggplot(aes(x = score)) + geom_bar(fill = "skyblue")
 
@@ -49,6 +53,8 @@ croods_plot <- tidy_croods %>%
   count(index =  row %/% 10, sentiment) %>%
   spread(sentiment, n, fill = 0) %>%
   mutate(sentiment = positive - negative)
+
+write_rds(croods_plot, "nicolas_cage_analysis/croods_plot.rds")
 
 croods_plot %>%
   ggplot(aes(index, sentiment, fill = sentiment)) +

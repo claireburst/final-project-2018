@@ -18,6 +18,8 @@ nt2_sentiment <- tidy_nt2 %>%
   inner_join(get_sentiments("bing")) %>%
   count(word, sentiment)
 
+write_rds(nt2_sentiment, "nicolas_cage_analysis/nt2_sentiment.rds")
+
 top_nt2 <- nt2_sentiment %>%
   # Group by sentiment
   group_by(sentiment) %>%
@@ -38,6 +40,8 @@ nt2_sentiment2 <- tidy_nt2 %>%
   arrange(score) %>%
   mutate(average = mean(score))
 
+write_rds(nt2_sentiment2, "nicolas_cage_analysis/nt2_sentiment2.rds")
+
 nt2_sentiment2 %>%
   ggplot(aes(x = score)) + geom_bar(fill = "skyblue")
 
@@ -48,6 +52,8 @@ nt2_plot <- tidy_nt2 %>%
   count(index =  row %/% 10, sentiment) %>%
   spread(sentiment, n, fill = 0) %>%
   mutate(sentiment = positive - negative)
+
+write_rds(nt2_plot, "nicolas_cage_analysis/nt2_plot.rds")
 
 nt2_plot %>%
   ggplot(aes(index, sentiment, fill = sentiment)) +
