@@ -284,7 +284,7 @@ server <- function(input, output) {
    })
    
    output$about <- renderUI({
-     "Hello testing testing!"
+     "Hello testing testing! Don't forget to cite IMBD and thank my dude. Warn about sentiment analysis common errors"
    })
 }
 
