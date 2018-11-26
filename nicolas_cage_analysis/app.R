@@ -49,6 +49,36 @@ top_faceoff <- faceoff_sentiment %>%
   mutate(word = reorder(word, n)) %>%
   mutate(sentiment = fct_recode(sentiment, "Positive" = "positive", "Negative" = "negative"))
 
+# Leaving Las Vegas movie data
+llv_sentiment <- read_rds("./llv_sentiment.rds")
+llv_sentiment2 <- read_rds("./llv_sentiment2.rds")
+llv_plot <- read_rds("./llv_plot.rds")
+
+top_llv <- llv_sentiment %>%
+  # Group by sentiment
+  group_by(sentiment) %>%
+  # Take the top 10 for each sentiment
+  top_n(10) %>%
+  ungroup() %>%
+  # Make word a factor in order of n
+  mutate(word = reorder(word, n)) %>%
+  mutate(sentiment = fct_recode(sentiment, "Positive" = "positive", "Negative" = "negative"))
+
+# Moonstruck movie data
+moon_sentiment <- read_rds("./moon_sentiment.rds")
+moon_sentiment2 <- read_rds("./moon_sentiment2.rds")
+moon_plot <- read_rds("./moon_plot.rds")
+
+top_moon <- moon_sentiment %>%
+  # Group by sentiment
+  group_by(sentiment) %>%
+  # Take the top 10 for each sentiment
+  top_n(10) %>%
+  ungroup() %>%
+  # Make word a factor in order of n
+  mutate(word = reorder(word, n)) %>%
+  mutate(sentiment = fct_recode(sentiment, "Positive" = "positive", "Negative" = "negative"))
+
 # National Treasure movie data
 nt_sentiment <- read_rds("./nt_sentiment.rds")
 nt_sentiment2 <- read_rds("./nt_sentiment2.rds")
@@ -79,11 +109,13 @@ top_nt2 <- nt2_sentiment %>%
   mutate(word = reorder(word, n)) %>%
   mutate(sentiment = fct_recode(sentiment, "Positive" = "positive", "Negative" = "negative"))
 
-movie_options <- c("Raising Arizona", 
-               "The Croods",
-               "Face/Off", 
+movie_options <- c("The Croods",
+               "Face/Off",
+               "Leaving Las Vegas",
+               "Moonstruck",
                "National Treasure", 
-               "National Treasure 2: Book of Secrets")
+               "National Treasure 2: Book of Secrets",
+               "Raising Arizona")
 
 
 # Define UI for application that draws a histogram
@@ -153,6 +185,26 @@ server <- function(input, output) {
          ylab("Number of Utterances") +
          xlab("Word")
      }
+     else if (input$movie == "Leaving Las Vegas") {
+       top_llv %>%
+         ggplot(aes(word, n, fill = sentiment)) +
+         geom_col(show.legend = FALSE) +
+         facet_wrap(~sentiment, scales = "free") +  
+         coord_flip() +
+         ggtitle(paste("The Most Common Positive and Negative Words in", input$movie),subtitle = "After tallying all words in the script, these were the words of each sentiment expressed the most frequently.") +
+         ylab("Number of Utterances") +
+         xlab("Word")
+     }
+     else if (input$movie == "Moonstruck") {
+       top_moon %>%
+         ggplot(aes(word, n, fill = sentiment)) +
+         geom_col(show.legend = FALSE) +
+         facet_wrap(~sentiment, scales = "free") +  
+         coord_flip() +
+         ggtitle(paste("The Most Common Positive and Negative Words in", input$movie),subtitle = "After tallying all words in the script, these were the words of each sentiment expressed the most frequently.") +
+         ylab("Number of Utterances") +
+         xlab("Word")
+     }
      else if (input$movie == "National Treasure") {
        top_nt %>%
          ggplot(aes(word, n, fill = sentiment)) +
@@ -199,6 +251,24 @@ server <- function(input, output) {
      }
      else if (input$movie == "Face/Off") {
        faceoff_sentiment2 %>%
+         ggplot(aes(x = score)) + 
+         geom_bar(fill = "skyblue") +
+         ggtitle(paste("The Frequency of Positive and Negative Words in", input$movie),
+                 subtitle = "Words in the movie script were scored on a scale of -5 to 5, with -5 being MOST negative and 5 being MOST positive.") +
+         xlab("Positivity/Negativity Score") +
+         ylab("Number of Utterances")
+     }
+     else if (input$movie == "Leaving Las Vegas") {
+       llv_sentiment2 %>%
+         ggplot(aes(x = score)) + 
+         geom_bar(fill = "skyblue") +
+         ggtitle(paste("The Frequency of Positive and Negative Words in", input$movie),
+                 subtitle = "Words in the movie script were scored on a scale of -5 to 5, with -5 being MOST negative and 5 being MOST positive.") +
+         xlab("Positivity/Negativity Score") +
+         ylab("Number of Utterances")
+     }
+     else if (input$movie == "Moonstruck") {
+       moon_sentiment2 %>%
          ggplot(aes(x = score)) + 
          geom_bar(fill = "skyblue") +
          ggtitle(paste("The Frequency of Positive and Negative Words in", input$movie),
@@ -253,6 +323,26 @@ server <- function(input, output) {
      }
      else if (input$movie == "Face/Off") {
        faceoff_plot %>%
+         ggplot(aes(index, sentiment, fill = sentiment)) +
+         geom_bar(stat = "identity", show.legend = FALSE) +
+         ggtitle(paste("Variance in Emotion Throughout", input$movie, "Runtime"), 
+                 subtitle = "This plot illustrates the density of emotion words over time in the film. The darker the colors, the more extreme the sentiments.") +
+         xlab("Runtime") +
+         ylab("Positivity/Negativity of Expression") +
+         theme(axis.text.x=element_blank())
+     }
+     else if (input$movie == "Leaving Las Vegas") {
+       llv_plot %>%
+         ggplot(aes(index, sentiment, fill = sentiment)) +
+         geom_bar(stat = "identity", show.legend = FALSE) +
+         ggtitle(paste("Variance in Emotion Throughout", input$movie, "Runtime"), 
+                 subtitle = "This plot illustrates the density of emotion words over time in the film. The darker the colors, the more extreme the sentiments.") +
+         xlab("Runtime") +
+         ylab("Positivity/Negativity of Expression") +
+         theme(axis.text.x=element_blank())
+     }
+     else if (input$movie == "Moonstruck") {
+       moon_plot %>%
          ggplot(aes(index, sentiment, fill = sentiment)) +
          geom_bar(stat = "identity", show.legend = FALSE) +
          ggtitle(paste("Variance in Emotion Throughout", input$movie, "Runtime"), 
