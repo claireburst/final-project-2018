@@ -1,0 +1,12 @@
+name: nicolas_cage_analysis
+title: nicolas_cage_analysis
+username:
+account: claire-fridkin
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 589460
+bundleId: 1720078
+url: https://claire-fridkin.shinyapps.io/nicolas_cage_analysis/
+when: 1543204812.75996
+asMultiple: FALSE
+asStatic: FALSE
