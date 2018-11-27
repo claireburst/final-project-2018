@@ -6,6 +6,8 @@ library(ggrepel)
 library(plotly)
 library(scales)
 library(janitor)
+library(lubridate)
+
 
 # Adaptation movie data
 adaptation_sentiment <- read_rds("./adaptation_sentiment.rds")
@@ -174,7 +176,11 @@ allmovies <- read_excel("./NIC_CAGE.xlsx")
 
 allmovies <- allmovies %>%
   clean_names() %>%
-  select(movie, total_box_office, theatrical_release_release_date, running_time, mpaa, metacritic, sentiment)
+  select(movie, total_box_office, theatrical_release_release_date, running_time, mpaa, metacritic, sentiment) %>%
+  mutate(theatrical_release_release_date = as.character(theatrical_release_release_date)) %>%
+  mutate(theatrical_release_release_date = ymd(theatrical_release_release_date)) 
+
+  
 
 # Define UI for application that draws a histogram
 ui <- fluidPage(
@@ -200,7 +206,7 @@ ui <- fluidPage(
                              plotOutput("plot")),
                     tabPanel("All Nicolas Cage Movies", plotOutput("mpaacount"), plotlyOutput("time"), 
                              htmlOutput("explain"),
-                             plotlyOutput("metacritic")),
+                             plotlyOutput("metacritic"), htmlOutput("explain2")),
                     tabPanel("About This App", htmlOutput("about")))
     
       )
@@ -219,8 +225,9 @@ server <- function(input, output) {
      
      ggplotly(tooltip = c("text"),
        ggplot(data = allmovies, aes(x = theatrical_release_release_date, 
-          y = total_box_office, color = mpaa, text = movie)) + 
-          geom_point() +
+          y = total_box_office, color = mpaa)) + 
+          geom_point(aes(text = movie)) +
+          geom_smooth(method=lm, se = FALSE) +
           scale_y_continuous(labels = comma) +
           labs(color = "MPAA Rating") + 
           ylab("Total Box Office Revenue") +
@@ -229,6 +236,7 @@ server <- function(input, output) {
                   subtitle = "While revenue generally improved over time, a further analysis shows PG rated movies generated much more revenue over time while PG-13 and R-rated revenue correlations do not appear to be significant.")) %>%
        layout(title = "Total Box Office Revenue Over Time",
               font = font)
+
      
    })
    
@@ -249,8 +257,9 @@ server <- function(input, output) {
      
      ggplotly(tooltip = c("text"),
               ggplot(data = allmovies, aes(x = theatrical_release_release_date, 
-                                           y = metacritic, color = mpaa, text = movie)) + 
-                geom_point() +  
+                                           y = metacritic, color = mpaa)) + 
+                geom_point(aes(text = movie)) +  
+                geom_smooth(method = lm, se = FALSE) +
                 scale_y_continuous(labels = comma) +
                 labs(color = "MPAA Rating") + 
                 ylab("Metacritic Score") +
@@ -258,6 +267,14 @@ server <- function(input, output) {
        layout(title = "Metacritic Scores Over Time",
               font = font)
      
+   })
+   
+   # Had to add this because you're unable to add subtitles in plotly :( So I needed text blurbs
+   output$explain2 <- renderUI({
+     
+     explain <- paste("Metacritic scores have consistently decreased over time when looked at by MPAA ratings.")
+     
+     HTML(paste(tags$ul(p(explain))))
    })
    
    output$mpaacount <- renderPlot({
