@@ -4,6 +4,21 @@ library(dplyr)
 library(ggrepel)
 library(plotly)
 
+# Adaptation movie data
+adaptation_sentiment <- read_rds("./adaptation_sentiment.rds")
+adaptation_sentiment2 <- read_rds("./adaptation_sentiment2.rds")
+adaptation_plot <- read_rds("./adaptation_plot.rds")
+
+top_adaptation <- adaptation_sentiment %>%
+  # Group by sentiment
+  group_by(sentiment) %>%
+  # Take the top 10 for each sentiment
+  top_n(10) %>%
+  ungroup() %>%
+  # Make word a factor in order of n
+  mutate(word = reorder(word, n)) %>%
+  mutate(sentiment = fct_recode(sentiment, "Positive" = "positive", "Negative" = "negative"))
+
 # Raising Arizona movie data
 arizona_sentiment <- read_rds("./arizona_sentiment.rds")
 arizona_sentiment2 <- read_rds("./arizona_sentiment2.rds")
@@ -139,7 +154,9 @@ top_wicker <- wicker_sentiment %>%
   mutate(word = reorder(word, n)) %>%
   mutate(sentiment = fct_recode(sentiment, "Positive" = "positive", "Negative" = "negative"))
 
-movie_options <- c("Con Air",
+# Vector for the drop down allowing user to select a movie
+movie_options <- c("Adaptation",
+               "Con Air",
                "The Croods",
                "Face/Off",
                "Leaving Las Vegas",
@@ -148,6 +165,8 @@ movie_options <- c("Con Air",
                "National Treasure 2: Book of Secrets",
                "Raising Arizona",
                "The Wicker Man")
+
+
 
 
 # Define UI for application that draws a histogram
@@ -186,6 +205,17 @@ server <- function(input, output) {
      if (input$movie == "Raising Arizona") {
        
      top_arizona %>%
+         ggplot(aes(word, n, fill = sentiment)) +
+         geom_col(show.legend = FALSE) +
+         facet_wrap(~sentiment, scales = "free") +  
+         coord_flip() +
+         ggtitle(paste("The Most Common Positive and Negative Words in", input$movie),
+                 subtitle = "After tallying all words in the script, these were the words of each sentiment expressed the most frequently.") +
+         ylab("Number of Utterances") +
+         xlab("Word")
+     }
+     else if (input$movie == "Adaptation") {
+       top_adaptation %>%
          ggplot(aes(word, n, fill = sentiment)) +
          geom_col(show.legend = FALSE) +
          facet_wrap(~sentiment, scales = "free") +  
@@ -294,6 +324,15 @@ server <- function(input, output) {
          xlab("Positivity/Negativity Score") +
          ylab("Number of Utterances")
      }
+     else if (input$movie == "Adaptation") {
+       adaptation_sentiment2 %>%
+         ggplot(aes(x = score)) + 
+         geom_bar(fill = "skyblue") +
+         ggtitle(paste("The Frequency of Positive and Negative Words in", input$movie),
+                 subtitle = "Words in the movie script were scored on a scale of -5 to 5, with -5 being MOST negative and 5 being MOST positive.") +
+         xlab("Positivity/Negativity Score") +
+         ylab("Number of Utterances")
+     }
      else if (input$movie == "Con Air") {
        con_sentiment2 %>%
          ggplot(aes(x = score)) + 
@@ -381,7 +420,16 @@ server <- function(input, output) {
          xlab("Runtime") +
          ylab("Positivity/Negativity of Expression") +
          theme(axis.text.x=element_blank())
-       
+     }
+     else if (input$movie == "Adaptation") {
+       adaptation_plot %>%
+         ggplot(aes(index, sentiment, fill = sentiment)) +
+         geom_bar(stat = "identity", show.legend = FALSE) +
+         ggtitle(paste("Variance in Emotion Throughout", input$movie, "Runtime"), 
+                 subtitle = "This plot illustrates the density of emotion words over time in the film. The darker the colors, the more extreme the sentiments.") +
+         xlab("Runtime") +
+         ylab("Positivity/Negativity of Expression") +
+         theme(axis.text.x=element_blank())
      }
      else if (input$movie == "Con Air") {
        con_plot %>%
@@ -466,7 +514,13 @@ server <- function(input, output) {
    })
    
    output$about <- renderUI({
-     "Hello testing testing! Don't forget to cite IMBD and thank my dude. Warn about sentiment analysis common errors"
+     str1 <- paste("About This App")
+     str2 <- paste("This app was created by Claire Fridkin as the final project for GOV1005: Data at Harvard University in Fall 2018.")
+     str3 <- paste("The goal of this app was to analyze Nicolas Cage's movie career through movie scripts and the success and revenue of his films.")
+     str4 <- paste("Special thanks to Walter Hickey of FiveThirtyEight for providing me with baseline data. I used IMDB to find movie runtimes and Metacritic scores.")
+     str5 <- paste("A cautionary warning for interpreting sentiment analysis: some words may have duplicate meanings (e.g. 'like' used as a verbal crutch vs. as a verb). This may have influenced the data and should be considered in your interpretations!")
+     
+     HTML(paste(tags$ul(h3(str1)), p(str2), p(str3), p(str4), em(str5)))
    })
 }
 
