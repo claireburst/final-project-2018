@@ -1,8 +1,11 @@
 library(shiny)
 library(tidyverse)
 library(dplyr)
+library(readxl)
 library(ggrepel)
 library(plotly)
+library(scales)
+library(janitor)
 
 # Adaptation movie data
 adaptation_sentiment <- read_rds("./adaptation_sentiment.rds")
@@ -166,8 +169,12 @@ movie_options <- c("Adaptation",
                "Raising Arizona",
                "The Wicker Man")
 
+# Defining tibbles for the big movie analysis tab
+allmovies <- read_excel("./NIC_CAGE.xlsx")
 
-
+allmovies <- allmovies %>%
+  clean_names() %>%
+  select(movie, total_box_office, theatrical_release_release_date, running_time, mpaa, metacritic, sentiment)
 
 # Define UI for application that draws a histogram
 ui <- fluidPage(
@@ -191,7 +198,9 @@ ui <- fluidPage(
         tabsetPanel(type = "tabs",
                     tabPanel("Movie Textual Analysis", plotOutput("topwords"), plotOutput("scorefreq"),
                              plotOutput("plot")),
-                    tabPanel("Nicolas Cage vs. the World", plotOutput("bigpicture")),
+                    tabPanel("All Nicolas Cage Movies", plotOutput("mpaacount"), plotlyOutput("time"), 
+                             htmlOutput("explain"),
+                             plotlyOutput("metacritic")),
                     tabPanel("About This App", htmlOutput("about")))
     
       )
@@ -200,6 +209,69 @@ ui <- fluidPage(
 
 # Define server logic required to draw a histogram
 server <- function(input, output) {
+  
+   output$time <- renderPlotly({
+     
+     font <- list(
+       family = "helvetica",
+       size = 12,
+       color = 'black')
+     
+     ggplotly(tooltip = c("text"),
+       ggplot(data = allmovies, aes(x = theatrical_release_release_date, 
+          y = total_box_office, color = mpaa, text = movie)) + 
+          geom_point() +
+          scale_y_continuous(labels = comma) +
+          labs(color = "MPAA Rating") + 
+          ylab("Total Box Office Revenue") +
+          xlab("Theatrical Release Date") +
+          ggtitle("Total Box Office Revenue Over Time",
+                  subtitle = "While revenue generally improved over time, a further analysis shows PG rated movies generated much more revenue over time while PG-13 and R-rated revenue correlations do not appear to be significant.")) %>%
+       layout(title = "Total Box Office Revenue Over Time",
+              font = font)
+     
+   })
+   
+   # Had to add this because you're unable to add subtitles in plotly :( So I needed text blurbs
+   output$explain <- renderUI({
+     
+     explain <- paste("\n While revenue generally improved over time, a further analysis shows PG rated movies generated much more revenue over time while PG-13 and R-rated revenue correlations do not appear to be significant.")
+     
+     HTML(paste(tags$ul(p(explain))))
+   })
+   
+   output$metacritic <- renderPlotly({
+     
+     font <- list(
+       family = "helvetica",
+       size = 12,
+       color = 'black')
+     
+     ggplotly(tooltip = c("text"),
+              ggplot(data = allmovies, aes(x = theatrical_release_release_date, 
+                                           y = metacritic, color = mpaa, text = movie)) + 
+                geom_point() +  
+                scale_y_continuous(labels = comma) +
+                labs(color = "MPAA Rating") + 
+                ylab("Metacritic Score") +
+                xlab("Theatrical Release Date")) %>%
+       layout(title = "Metacritic Scores Over Time",
+              font = font)
+     
+   })
+   
+   output$mpaacount <- renderPlot({
+     
+     allmovies %>%
+       ggplot(aes(x = mpaa, fill = mpaa)) +
+       geom_bar() +
+       xlab("MPAA Rating") +
+       ylab("Number of Films") +
+       labs(color = "MPAA Rating") + 
+       ggtitle("Number of Movies by MPAA Rating",
+               subtitle = "Nicolas Cage has done more R rated movies than PG and PG-13 combined")
+     
+   })
    
    output$topwords <- renderPlot({
      if (input$movie == "Raising Arizona") {
@@ -518,9 +590,11 @@ server <- function(input, output) {
      str2 <- paste("This app was created by Claire Fridkin as the final project for GOV1005: Data at Harvard University in Fall 2018.")
      str3 <- paste("The goal of this app was to analyze Nicolas Cage's movie career through movie scripts and the success and revenue of his films.")
      str4 <- paste("Special thanks to Walter Hickey of FiveThirtyEight for providing me with baseline data. I used IMDB to find movie runtimes and Metacritic scores.")
-     str5 <- paste("A cautionary warning for interpreting sentiment analysis: some words may have duplicate meanings (e.g. 'like' used as a verbal crutch vs. as a verb). This may have influenced the data and should be considered in your interpretations!")
+     str5 <- paste("A cautionary warning for interpreting sentiment analysis:")
+     str6 <- paste("some words may have duplicate meanings (e.g. 'like' used as a verbal crutch vs. as a verb). This may have influenced the data and should be considered in your interpretations!")
+     str7 <- paste("Also note: movies were excluded from analysis ofNicolas Cage only played a supporting roles. This left 54 movies to be examined (I did not consider movies beyond 2013). In the Metacritic score plot, only 46 movies appear because 8 movies did not have Metacritic scores on IMDB.")
      
-     HTML(paste(tags$ul(h3(str1)), p(str2), p(str3), p(str4), em(str5)))
+     HTML(paste(tags$ul(h3(str1)), p(str2), p(str3), p(str4), strong(em(str5)), str6, p(p(str7))))
    })
 }
 
