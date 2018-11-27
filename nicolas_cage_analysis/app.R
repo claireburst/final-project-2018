@@ -19,6 +19,21 @@ top_arizona <- arizona_sentiment %>%
   mutate(word = reorder(word, n)) %>%
   mutate(sentiment = fct_recode(sentiment, "Positive" = "positive", "Negative" = "negative"))
 
+# Con Air movie data
+con_sentiment <- read_rds("./con_sentiment.rds")
+con_sentiment2 <- read_rds("./con_sentiment2.rds")
+con_plot <- read_rds("./con_plot.rds")
+
+top_con <- con_sentiment %>%
+  # Group by sentiment
+  group_by(sentiment) %>%
+  # Take the top 10 for each sentiment
+  top_n(10) %>%
+  ungroup() %>%
+  # Make word a factor in order of n
+  mutate(word = reorder(word, n)) %>%
+  mutate(sentiment = fct_recode(sentiment, "Positive" = "positive", "Negative" = "negative"))
+
 # The Croods movie data
 croods_sentiment <- read_rds("./croods_sentiment.rds")
 croods_sentiment2 <- read_rds("./croods_sentiment2.rds")
@@ -109,13 +124,30 @@ top_nt2 <- nt2_sentiment %>%
   mutate(word = reorder(word, n)) %>%
   mutate(sentiment = fct_recode(sentiment, "Positive" = "positive", "Negative" = "negative"))
 
-movie_options <- c("The Croods",
+# The Wicker Man movie data
+wicker_sentiment <- read_rds("./wicker_sentiment.rds")
+wicker_sentiment2 <- read_rds("./wicker_sentiment2.rds")
+wicker_plot <- read_rds("./wicker_plot.rds")
+
+top_wicker <- wicker_sentiment %>%
+  # Group by sentiment
+  group_by(sentiment) %>%
+  # Take the top 10 for each sentiment
+  top_n(10) %>%
+  ungroup() %>%
+  # Make word a factor in order of n
+  mutate(word = reorder(word, n)) %>%
+  mutate(sentiment = fct_recode(sentiment, "Positive" = "positive", "Negative" = "negative"))
+
+movie_options <- c("Con Air",
+               "The Croods",
                "Face/Off",
                "Leaving Las Vegas",
                "Moonstruck",
                "National Treasure", 
                "National Treasure 2: Book of Secrets",
-               "Raising Arizona")
+               "Raising Arizona",
+               "The Wicker Man")
 
 
 # Define UI for application that draws a histogram
@@ -138,7 +170,7 @@ ui <- fluidPage(
       mainPanel(
         
         tabsetPanel(type = "tabs",
-                    tabPanel("Movie Analysis", plotOutput("topwords"), plotOutput("scorefreq"),
+                    tabPanel("Movie Textual Analysis", plotOutput("topwords"), plotOutput("scorefreq"),
                              plotOutput("plot")),
                     tabPanel("Nicolas Cage vs. the World", plotOutput("bigpicture")),
                     tabPanel("About This App", htmlOutput("about")))
@@ -154,6 +186,17 @@ server <- function(input, output) {
      if (input$movie == "Raising Arizona") {
        
      top_arizona %>%
+         ggplot(aes(word, n, fill = sentiment)) +
+         geom_col(show.legend = FALSE) +
+         facet_wrap(~sentiment, scales = "free") +  
+         coord_flip() +
+         ggtitle(paste("The Most Common Positive and Negative Words in", input$movie),
+                 subtitle = "After tallying all words in the script, these were the words of each sentiment expressed the most frequently.") +
+         ylab("Number of Utterances") +
+         xlab("Word")
+     }
+     else if (input$movie == "Con Air") {
+       top_con %>%
          ggplot(aes(word, n, fill = sentiment)) +
          geom_col(show.legend = FALSE) +
          facet_wrap(~sentiment, scales = "free") +  
@@ -226,6 +269,17 @@ server <- function(input, output) {
          xlab("Number of Utterances") +
          ylab("Word")
      }
+     else if (input$movie == "The Wicker Man") {
+       top_wicker %>%
+         ggplot(aes(word, n, fill = sentiment)) +
+         geom_col(show.legend = FALSE) +
+         facet_wrap(~sentiment, scales = "free") +  
+         coord_flip() +
+         ggtitle(paste("The Most Common Positive and Negative Words in", input$movie),
+                 subtitle = "After tallying all words in the script, these were the words of each sentiment expressed the most frequently.") +
+         xlab("Number of Utterances") +
+         ylab("Word")
+     }
    })
    
    output$scorefreq <- renderPlot({
@@ -233,6 +287,15 @@ server <- function(input, output) {
      if (input$movie == "Raising Arizona") {
        
        arizona_sentiment2 %>%
+         ggplot(aes(x = score)) + 
+         geom_bar(fill = "skyblue") +
+         ggtitle(paste("The Frequency of Positive and Negative Words in", input$movie),
+                 subtitle = "Words in the movie script were scored on a scale of -5 to 5, with -5 being MOST negative and 5 being MOST positive.") +
+         xlab("Positivity/Negativity Score") +
+         ylab("Number of Utterances")
+     }
+     else if (input$movie == "Con Air") {
+       con_sentiment2 %>%
          ggplot(aes(x = score)) + 
          geom_bar(fill = "skyblue") +
          ggtitle(paste("The Frequency of Positive and Negative Words in", input$movie),
@@ -294,6 +357,15 @@ server <- function(input, output) {
          xlab("Positivity/Negativity Score") +
          ylab("Number of Utterances")
      }
+     else if (input$movie == "The Wicker Man") {
+       wicker_sentiment2 %>%
+         ggplot(aes(x = score)) + 
+         geom_bar(fill = "skyblue") +
+         ggtitle(paste("The Frequency of Positive and Negative Words in", input$movie),
+                 subtitle = "Words in the movie script were scored on a scale of -5 to 5, with -5 being MOST negative and 5 being MOST positive.") +
+         xlab("Positivity/Negativity Score") +
+         ylab("Number of Utterances")
+     }
      
      
    })
@@ -310,6 +382,16 @@ server <- function(input, output) {
          ylab("Positivity/Negativity of Expression") +
          theme(axis.text.x=element_blank())
        
+     }
+     else if (input$movie == "Con Air") {
+       con_plot %>%
+         ggplot(aes(index, sentiment, fill = sentiment)) +
+         geom_bar(stat = "identity", show.legend = FALSE) +
+         ggtitle(paste("Variance in Emotion Throughout", input$movie, "Runtime"), 
+                 subtitle = "This plot illustrates the density of emotion words over time in the film. The darker the colors, the more extreme the sentiments.") +
+         xlab("Runtime") +
+         ylab("Positivity/Negativity of Expression") +
+         theme(axis.text.x=element_blank())
      }
      else if (input$movie == "The Croods") {
        croods_plot %>%
@@ -363,6 +445,16 @@ server <- function(input, output) {
      }
      else if (input$movie == "National Treasure 2: Book of Secrets") {
        nt2_plot %>%
+         ggplot(aes(index, sentiment, fill = sentiment)) +
+         geom_bar(stat = "identity", show.legend = FALSE) +
+         ggtitle(paste("Variance in Emotion Throughout", input$movie, "Runtime"), 
+                 subtitle = "This plot illustrates the density of emotion words over time in the film. The darker the colors, the more extreme the sentiments.") +
+         xlab("Runtime") +
+         ylab("Positivity/Negativity of Expression") +
+         theme(axis.text.x=element_blank())
+     }
+     else if (input$movie == "The Wicker Man") {
+       wicker_plot %>%
          ggplot(aes(index, sentiment, fill = sentiment)) +
          geom_bar(stat = "identity", show.legend = FALSE) +
          ggtitle(paste("Variance in Emotion Throughout", input$movie, "Runtime"), 
