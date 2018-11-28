@@ -174,12 +174,14 @@ movie_options <- c("Adaptation",
 # Defining tibbles for the big movie analysis tab
 allmovies <- read_excel("./NIC_CAGE.xlsx")
 
+# Cleaning up the all movie data by selecting desired variables and returning proper date format
 allmovies <- allmovies %>%
   clean_names() %>%
   select(movie, total_box_office, theatrical_release_release_date, running_time, mpaa, metacritic, sentiment) %>%
   mutate(theatrical_release_release_date = as.character(theatrical_release_release_date)) %>%
   mutate(theatrical_release_release_date = ymd(theatrical_release_release_date)) 
 
+# Prepared dataframe for movies for which I have a previously calculated average sentiment
 avgsentiment <- allmovies %>%
   filter(!is.na(sentiment))
   
@@ -189,7 +191,7 @@ ui <- fluidPage(
    # Application title
    titlePanel("Nicolas Cage: an In-Depth Analysis"),
    
-   # Sidebar with a slider input for number of bins 
+   # Sidebar with a dropdown menu where a user can selected a movie
    sidebarLayout(
       sidebarPanel(
         selectInput(inputId = "movie",
@@ -199,9 +201,10 @@ ui <- fluidPage(
                     selected = movie_options[1])
       ),
       
-      # Show a plot of the generated distribution
       mainPanel(
         
+        # I have different tabs for the user to choose from: movie script analysis, a more general 
+        # analysis, and an "About" tab 
         tabsetPanel(type = "tabs",
                     tabPanel("Movie Textual Analysis", plotOutput("topwords"), plotOutput("scorefreq"),
                              plotOutput("plot")),
@@ -214,16 +217,20 @@ ui <- fluidPage(
    )
 )
 
-# Define server logic required to draw a histogram
+# Defines the various plots for each tab
 server <- function(input, output) {
   
+   # This is the plot that shows box office revenue over time
    output$time <- renderPlotly({
      
+     # Set a new font class because the default plotly font is so ugly!
      font <- list(
        family = "helvetica",
        size = 12,
        color = 'black')
      
+     # Created plot with plotly because I wanted you to be able to hover your mouse tip over the
+     # Movie and be able to see movie title
      ggplotly(tooltip = c("text"),
        ggplot(data = allmovies, aes(x = theatrical_release_release_date, 
           y = total_box_office, color = mpaa)) + 
@@ -242,6 +249,7 @@ server <- function(input, output) {
    })
    
    # Had to add this because you're unable to add subtitles in plotly :( So I needed text blurbs
+   # to explain what the data is showing
    output$explain <- renderUI({
      
      explain <- paste("\n While revenue generally improved over time, a further analysis shows PG rated movies generated much more revenue over time while PG-13 and R-rated revenue correlations do not appear to be significant.")
@@ -249,13 +257,17 @@ server <- function(input, output) {
      HTML(paste(tags$ul(p(explain))))
    })
    
+   # This is the plot for metacritic score over time
    output$metacritic <- renderPlotly({
      
+     # Set a new font class because the default plotly font is so ugly!
      font <- list(
        family = "helvetica",
        size = 12,
        color = 'black')
      
+     # Created plot with plotly because I wanted you to be able to hover your mouse tip over the
+     # Movie and be able to see movie title
      ggplotly(tooltip = c("text"),
               ggplot(data = allmovies, aes(x = theatrical_release_release_date, 
                                            y = metacritic, color = mpaa)) + 
@@ -271,6 +283,7 @@ server <- function(input, output) {
    })
    
    # Had to add this because you're unable to add subtitles in plotly :( So I needed text blurbs
+   # To explain what the data is showing
    output$explain2 <- renderUI({
      
      explain <- paste("Metacritic scores have consistently decreased over time when looked at by MPAA ratings.")
@@ -278,6 +291,7 @@ server <- function(input, output) {
      HTML(paste(tags$ul(p(explain))))
    })
    
+   # This is a very simple ggplot that shows how many movies of each MPAA rating exist in my data
    output$mpaacount <- renderPlot({
      
      allmovies %>%
@@ -291,6 +305,8 @@ server <- function(input, output) {
      
    })
    
+   # A boxplot which shows how the average sentiment, calculated via sentiment analysis, varies
+   # as a factor of MPAA rating
    output$sent <- renderPlot({
      
      avgsentiment %>%
@@ -304,6 +320,9 @@ server <- function(input, output) {
      
    })
    
+   # This creates the plot for top words within each movie. The reason I had to hardcode each 
+   # movie was because I wanted my dropdown menu to have full movie names, and the data variable
+   # names were not the exact same as each movie. This was easier to me than fixing that problem.
    output$topwords <- renderPlot({
      if (input$movie == "Raising Arizona") {
        
@@ -415,6 +434,10 @@ server <- function(input, output) {
      }
    })
    
+   # This creates the bar chart for sentiment score frequency for each movie. The reason I had to hardcode each 
+   # movie was because I wanted my dropdown menu to have full movie names, and the data variable
+   # names were not the exact same as each movie. This was easier to me than fixing that problem.
+   
    output$scorefreq <- renderPlot({
      
      if (input$movie == "Raising Arizona") {
@@ -511,6 +534,10 @@ server <- function(input, output) {
      
      
    })
+   
+   # This creates the plot for sentiment score over time in each movie. The reason I had to hardcode each 
+   # movie was because I wanted my dropdown menu to have full movie names, and the data variable
+   # names were not the exact same as each movie. This was easier to me than fixing that problem.
    
    output$plot <- renderPlot({
      
@@ -616,6 +643,10 @@ server <- function(input, output) {
      }
    })
    
+   # This defines the UI for the HTML "About" tab. I wasn't sure how to do it other than 
+   # pasting together a bunch of strings by using HTML tags, inspired by some classmates' work
+   # on pset7, as well as a few stackoverflow posts. 
+   
    output$about <- renderUI({
      str00 <- paste(" ")
     str0 <- paste("About This App")
@@ -632,6 +663,6 @@ server <- function(input, output) {
    })
 }
 
-# Run the application 
+# Run the application ! That's all ! 
 shinyApp(ui = ui, server = server)
 
