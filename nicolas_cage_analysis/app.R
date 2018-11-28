@@ -617,15 +617,18 @@ server <- function(input, output) {
    })
    
    output$about <- renderUI({
-     str1 <- paste("About This App")
+     str00 <- paste(" ")
+    str0 <- paste("About This App")
      str2 <- paste("This app was created by Claire Fridkin as the final project for GOV1005: Data at Harvard University in Fall 2018.")
      str3 <- paste("The goal of this app was to analyze Nicolas Cage's movie career through movie scripts and the success and revenue of his films.")
      str4 <- paste("Special thanks to Walter Hickey of FiveThirtyEight for providing me with baseline data. I used IMDB to find movie runtimes and Metacritic scores.")
+     strsum <- paste("Summary + Warnings")
+     str4sent <- paste("Sentiment analysis shows that Nicolas Cage’s film career has yielded many films of deeply negative affect as well as relatively positive films. Plotting various aspects of Nicolas Cage’s career has shown that his PG-rated movies have yielded more revenue over time, while his PG-13 and R rated movies vary in box office success. Additionally, over time, there has been a steady decrease in Metacritic scores across each MPAA rating of movie. Finally, average sentiment for each film shows (as expected) that PG films are generally more positive when compared to PG-13 and R rated movies, although R movie average sentiment varies greatly.")
      str5 <- paste("A cautionary warning for interpreting sentiment analysis:")
      str6 <- paste("some words may have duplicate meanings (e.g. 'like' used as a verbal crutch vs. as a verb). This may have influenced the data and should be considered in your interpretations!")
      str7 <- paste("Also note: movies were excluded from analysis of Nicolas Cage only played a supporting roles. This left 54 movies to be examined (I did not consider movies beyond 2013). In the Metacritic score plot, only 46 movies appear because 8 movies did not have Metacritic scores on IMDB.")
      
-     HTML(paste(tags$ul(h3(str1)), p(str2), p(str3), p(str4), strong(em(str5)), str6, p(p(str7))))
+     HTML(paste(tags$ul(str00, h3(str0, align = "center"), p(str2), p(str3), p(str4), h3(strsum, align = "center"), p(str4sent), strong(em(str5)), str6, p(p(str7)))))
    })
 }
 
