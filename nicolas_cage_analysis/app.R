@@ -172,6 +172,8 @@ movie_options <- c("Adaptation",
                "The Wicker Man")
 
 # Defining tibbles for the big movie analysis tab
+# This data was given to me by Walter Hickey of FiveThirtyEight, although I had to make some changes
+# and fill in some NA values
 allmovies <- read_excel("./NIC_CAGE.xlsx")
 
 # Cleaning up the all movie data by selecting desired variables and returning proper date format
