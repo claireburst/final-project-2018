@@ -180,8 +180,9 @@ allmovies <- allmovies %>%
   mutate(theatrical_release_release_date = as.character(theatrical_release_release_date)) %>%
   mutate(theatrical_release_release_date = ymd(theatrical_release_release_date)) 
 
+avgsentiment <- allmovies %>%
+  filter(!is.na(sentiment))
   
-
 # Define UI for application that draws a histogram
 ui <- fluidPage(
    
@@ -206,7 +207,7 @@ ui <- fluidPage(
                              plotOutput("plot")),
                     tabPanel("All Nicolas Cage Movies", plotOutput("mpaacount"), plotlyOutput("time"), 
                              htmlOutput("explain"),
-                             plotlyOutput("metacritic"), htmlOutput("explain2")),
+                             plotlyOutput("metacritic"), htmlOutput("explain2"), plotOutput("sent")),
                     tabPanel("About This App", htmlOutput("about")))
     
       )
@@ -287,6 +288,19 @@ server <- function(input, output) {
        labs(color = "MPAA Rating") + 
        ggtitle("Number of Movies by MPAA Rating",
                subtitle = "Nicolas Cage has done more R rated movies than PG and PG-13 combined")
+     
+   })
+   
+   output$sent <- renderPlot({
+     
+     avgsentiment %>%
+       ggplot(aes(x = mpaa, y = sentiment, fill = mpaa)) +
+       geom_boxplot() +
+       xlab("MPAA Rating") +
+       ylab("Average Sentiment Score") +
+       labs(color = "MPAA Rating") + 
+       ggtitle("Average Word Sentiment by MPAA Rating",
+               subtitle = "All words on in the film scripts were score on a scale of -5 to 5, where -5 was most negative and 5 was most positive. \n PG movies clearly had much more positive sentiments than PG-13 or R films, but R films varied greatly. (Note this analysis \n only considers the 10 movies available for sentiment analysis in the drop-down menu.")
      
    })
    
@@ -609,7 +623,7 @@ server <- function(input, output) {
      str4 <- paste("Special thanks to Walter Hickey of FiveThirtyEight for providing me with baseline data. I used IMDB to find movie runtimes and Metacritic scores.")
      str5 <- paste("A cautionary warning for interpreting sentiment analysis:")
      str6 <- paste("some words may have duplicate meanings (e.g. 'like' used as a verbal crutch vs. as a verb). This may have influenced the data and should be considered in your interpretations!")
-     str7 <- paste("Also note: movies were excluded from analysis ofNicolas Cage only played a supporting roles. This left 54 movies to be examined (I did not consider movies beyond 2013). In the Metacritic score plot, only 46 movies appear because 8 movies did not have Metacritic scores on IMDB.")
+     str7 <- paste("Also note: movies were excluded from analysis of Nicolas Cage only played a supporting roles. This left 54 movies to be examined (I did not consider movies beyond 2013). In the Metacritic score plot, only 46 movies appear because 8 movies did not have Metacritic scores on IMDB.")
      
      HTML(paste(tags$ul(h3(str1)), p(str2), p(str3), p(str4), strong(em(str5)), str6, p(p(str7))))
    })

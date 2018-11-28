@@ -5,8 +5,8 @@ account: claire-fridkin
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 589460
-bundleId: 1722386
+bundleId: 1724275
 url: https://claire-fridkin.shinyapps.io/nicolas_cage_analysis/
-when: 1543292280.93012
+when: 1543350842.40165
 asMultiple: FALSE
 asStatic: FALSE
