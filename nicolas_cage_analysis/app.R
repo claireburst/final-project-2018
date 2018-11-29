@@ -10,10 +10,12 @@ library(lubridate)
 
 
 # Adaptation movie data
+# "Importing" my work from my folder where I did Script Analysis
 adaptation_sentiment <- read_rds("./adaptation_sentiment.rds")
 adaptation_sentiment2 <- read_rds("./adaptation_sentiment2.rds")
 adaptation_plot <- read_rds("./adaptation_plot.rds")
 
+# Creating a variable with top 10 words for each level of sentiment 
 top_adaptation <- adaptation_sentiment %>%
   # Group by sentiment
   group_by(sentiment) %>%
@@ -25,10 +27,12 @@ top_adaptation <- adaptation_sentiment %>%
   mutate(sentiment = fct_recode(sentiment, "Positive" = "positive", "Negative" = "negative"))
 
 # Raising Arizona movie data
+# "Importing" my work from my folder where I did Script Analysis
 arizona_sentiment <- read_rds("./arizona_sentiment.rds")
 arizona_sentiment2 <- read_rds("./arizona_sentiment2.rds")
 arizona_plot <- read_rds("./arizona_plot.rds")
 
+# Creating a variable with top 10 words for each level of sentiment 
 top_arizona <- arizona_sentiment %>%
   # Group by sentiment
   group_by(sentiment) %>%
@@ -40,10 +44,12 @@ top_arizona <- arizona_sentiment %>%
   mutate(sentiment = fct_recode(sentiment, "Positive" = "positive", "Negative" = "negative"))
 
 # Con Air movie data
+# "Importing" my work from my folder where I did Script Analysis
 con_sentiment <- read_rds("./con_sentiment.rds")
 con_sentiment2 <- read_rds("./con_sentiment2.rds")
 con_plot <- read_rds("./con_plot.rds")
 
+# Creating a variable with top 10 words for each level of sentiment 
 top_con <- con_sentiment %>%
   # Group by sentiment
   group_by(sentiment) %>%
@@ -55,10 +61,12 @@ top_con <- con_sentiment %>%
   mutate(sentiment = fct_recode(sentiment, "Positive" = "positive", "Negative" = "negative"))
 
 # The Croods movie data
+# "Importing" my work from my folder where I did Script Analysis
 croods_sentiment <- read_rds("./croods_sentiment.rds")
 croods_sentiment2 <- read_rds("./croods_sentiment2.rds")
 croods_plot <- read_rds("./croods_plot.rds")
 
+# Creating a variable with top 10 words for each level of sentiment 
 top_croods <- croods_sentiment %>%
   # Group by sentiment
   group_by(sentiment) %>%
@@ -70,10 +78,12 @@ top_croods <- croods_sentiment %>%
   mutate(sentiment = fct_recode(sentiment, "Positive" = "positive", "Negative" = "negative"))
 
 # Face/Off movie data
+# "Importing" my work from my folder where I did Script Analysis
 faceoff_sentiment <- read_rds("./faceoff_sentiment.rds")
 faceoff_sentiment2 <- read_rds("./faceoff_sentiment2.rds")
 faceoff_plot <- read_rds("./faceoff_plot.rds")
 
+# Creating a variable with top 10 words for each level of sentiment 
 top_faceoff <- faceoff_sentiment %>%
   # Group by sentiment
   group_by(sentiment) %>%
@@ -85,10 +95,12 @@ top_faceoff <- faceoff_sentiment %>%
   mutate(sentiment = fct_recode(sentiment, "Positive" = "positive", "Negative" = "negative"))
 
 # Leaving Las Vegas movie data
+# "Importing" my work from my folder where I did Script Analysis
 llv_sentiment <- read_rds("./llv_sentiment.rds")
 llv_sentiment2 <- read_rds("./llv_sentiment2.rds")
 llv_plot <- read_rds("./llv_plot.rds")
 
+# Creating a variable with top 10 words for each level of sentiment 
 top_llv <- llv_sentiment %>%
   # Group by sentiment
   group_by(sentiment) %>%
@@ -100,10 +112,12 @@ top_llv <- llv_sentiment %>%
   mutate(sentiment = fct_recode(sentiment, "Positive" = "positive", "Negative" = "negative"))
 
 # Moonstruck movie data
+# "Importing" my work from my folder where I did Script Analysis
 moon_sentiment <- read_rds("./moon_sentiment.rds")
 moon_sentiment2 <- read_rds("./moon_sentiment2.rds")
 moon_plot <- read_rds("./moon_plot.rds")
 
+# Creating a variable with top 10 words for each level of sentiment 
 top_moon <- moon_sentiment %>%
   # Group by sentiment
   group_by(sentiment) %>%
@@ -115,10 +129,12 @@ top_moon <- moon_sentiment %>%
   mutate(sentiment = fct_recode(sentiment, "Positive" = "positive", "Negative" = "negative"))
 
 # National Treasure movie data
+# "Importing" my work from my folder where I did Script Analysis
 nt_sentiment <- read_rds("./nt_sentiment.rds")
 nt_sentiment2 <- read_rds("./nt_sentiment2.rds")
 nt_plot <- read_rds("./nt_plot.rds")
 
+# Creating a variable with top 10 words for each level of sentiment 
 top_nt <- nt_sentiment %>%
   # Group by sentiment
   group_by(sentiment) %>%
@@ -130,10 +146,12 @@ top_nt <- nt_sentiment %>%
   mutate(sentiment = fct_recode(sentiment, "Positive" = "positive", "Negative" = "negative"))
 
 # National Treasure 2 movie data
+# "Importing" my work from my folder where I did Script Analysis
 nt2_sentiment <- read_rds("./nt2_sentiment.rds")
 nt2_sentiment2 <- read_rds("./nt2_sentiment2.rds")
 nt2_plot <- read_rds("./nt2_plot.rds")
 
+# Creating a variable with top 10 words for each level of sentiment 
 top_nt2 <- nt2_sentiment %>%
   # Group by sentiment
   group_by(sentiment) %>%
@@ -145,10 +163,12 @@ top_nt2 <- nt2_sentiment %>%
   mutate(sentiment = fct_recode(sentiment, "Positive" = "positive", "Negative" = "negative"))
 
 # The Wicker Man movie data
+# "Importing" my work from my folder where I did Script Analysis
 wicker_sentiment <- read_rds("./wicker_sentiment.rds")
 wicker_sentiment2 <- read_rds("./wicker_sentiment2.rds")
 wicker_plot <- read_rds("./wicker_plot.rds")
 
+# Creating a variable with top 10 words for each level of sentiment 
 top_wicker <- wicker_sentiment %>%
   # Group by sentiment
   group_by(sentiment) %>%
