@@ -6,14 +6,30 @@ library(XML)
 library(janitor)
 library(fs)
 
+# Read in movie script from file 
+
 adaptation <- paste(readLines("./Script Analysis/AdaptationScript.html"))
+
+# Creates dataframe where each line of script is a row in the data frame
+# We don't want these rows to be factors, so set stringsAsFactors = FALSE
+# Finally, filter to avoid weird formatting things that may appear in data 
 
 adaptation <- data.frame(adaptation, stringsAsFactors = FALSE) %>%
   filter(!adaptation %in% c("", "</br>", "<p>"))
 
+# Tidying the data such that each row a singular word from the script, to allow for 
+# sentiment analysis
+
 tidy_adaptation <- adaptation %>%
   unnest_tokens(word, adaptation) %>%
   filter(word != "br")
+
+# Okay, all of these sentiment_analysis_movie.R files are the same, so I'm going to use the
+# same comments in all of them because I do  the exact same things in each. 
+# I create various tibbles joining the words from the script with 
+# different sentiment directories e.g. bing and afinn. Then, I use various plots to attempt to 
+# Visualize the frequencies of words and sentiments. I also write several rds files so that I can
+# Read them in to my app.R files. 
 
 adaptation_sentiment <- tidy_adaptation %>%
   inner_join(get_sentiments("bing")) %>%
