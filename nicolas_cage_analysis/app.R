@@ -11,9 +11,9 @@ library(lubridate)
 
 # Adaptation movie data
 # "Importing" my work from my folder where I did Script Analysis
-adaptation_sentiment <- read_rds("./adaptation_sentiment.rds")
-adaptation_sentiment2 <- read_rds("./adaptation_sentiment2.rds")
-adaptation_plot <- read_rds("./adaptation_plot.rds")
+adaptation_sentiment <- read_rds("./RDS Files/adaptation_sentiment.rds")
+adaptation_sentiment2 <- read_rds("./RDS Files/adaptation_sentiment2.rds")
+adaptation_plot <- read_rds("./RDS Files/adaptation_plot.rds")
 
 # Creating a variable with top 10 words for each level of sentiment 
 top_adaptation <- adaptation_sentiment %>%
@@ -28,9 +28,9 @@ top_adaptation <- adaptation_sentiment %>%
 
 # Raising Arizona movie data
 # "Importing" my work from my folder where I did Script Analysis
-arizona_sentiment <- read_rds("./arizona_sentiment.rds")
-arizona_sentiment2 <- read_rds("./arizona_sentiment2.rds")
-arizona_plot <- read_rds("./arizona_plot.rds")
+arizona_sentiment <- read_rds("./RDS Files/arizona_sentiment.rds")
+arizona_sentiment2 <- read_rds("./RDS Files/arizona_sentiment2.rds")
+arizona_plot <- read_rds("./RDS Files/arizona_plot.rds")
 
 # Creating a variable with top 10 words for each level of sentiment 
 top_arizona <- arizona_sentiment %>%
@@ -45,9 +45,9 @@ top_arizona <- arizona_sentiment %>%
 
 # Con Air movie data
 # "Importing" my work from my folder where I did Script Analysis
-con_sentiment <- read_rds("./con_sentiment.rds")
-con_sentiment2 <- read_rds("./con_sentiment2.rds")
-con_plot <- read_rds("./con_plot.rds")
+con_sentiment <- read_rds("./RDS Files/con_sentiment.rds")
+con_sentiment2 <- read_rds("./RDS Files/con_sentiment2.rds")
+con_plot <- read_rds("./RDS Files/con_plot.rds")
 
 # Creating a variable with top 10 words for each level of sentiment 
 top_con <- con_sentiment %>%
@@ -62,9 +62,9 @@ top_con <- con_sentiment %>%
 
 # The Croods movie data
 # "Importing" my work from my folder where I did Script Analysis
-croods_sentiment <- read_rds("./croods_sentiment.rds")
-croods_sentiment2 <- read_rds("./croods_sentiment2.rds")
-croods_plot <- read_rds("./croods_plot.rds")
+croods_sentiment <- read_rds("./RDS Files/croods_sentiment.rds")
+croods_sentiment2 <- read_rds("./RDS Files/croods_sentiment2.rds")
+croods_plot <- read_rds("./RDS Files/croods_plot.rds")
 
 # Creating a variable with top 10 words for each level of sentiment 
 top_croods <- croods_sentiment %>%
@@ -79,9 +79,9 @@ top_croods <- croods_sentiment %>%
 
 # Face/Off movie data
 # "Importing" my work from my folder where I did Script Analysis
-faceoff_sentiment <- read_rds("./faceoff_sentiment.rds")
-faceoff_sentiment2 <- read_rds("./faceoff_sentiment2.rds")
-faceoff_plot <- read_rds("./faceoff_plot.rds")
+faceoff_sentiment <- read_rds("./RDS Files/faceoff_sentiment.rds")
+faceoff_sentiment2 <- read_rds("./RDS Files/faceoff_sentiment2.rds")
+faceoff_plot <- read_rds("./RDS Files/faceoff_plot.rds")
 
 # Creating a variable with top 10 words for each level of sentiment 
 top_faceoff <- faceoff_sentiment %>%
@@ -96,9 +96,9 @@ top_faceoff <- faceoff_sentiment %>%
 
 # Leaving Las Vegas movie data
 # "Importing" my work from my folder where I did Script Analysis
-llv_sentiment <- read_rds("./llv_sentiment.rds")
-llv_sentiment2 <- read_rds("./llv_sentiment2.rds")
-llv_plot <- read_rds("./llv_plot.rds")
+llv_sentiment <- read_rds("./RDS Files/llv_sentiment.rds")
+llv_sentiment2 <- read_rds("./RDS Files/llv_sentiment2.rds")
+llv_plot <- read_rds("./RDS Files/llv_plot.rds")
 
 # Creating a variable with top 10 words for each level of sentiment 
 top_llv <- llv_sentiment %>%
@@ -113,9 +113,9 @@ top_llv <- llv_sentiment %>%
 
 # Moonstruck movie data
 # "Importing" my work from my folder where I did Script Analysis
-moon_sentiment <- read_rds("./moon_sentiment.rds")
-moon_sentiment2 <- read_rds("./moon_sentiment2.rds")
-moon_plot <- read_rds("./moon_plot.rds")
+moon_sentiment <- read_rds("./RDS Files/moon_sentiment.rds")
+moon_sentiment2 <- read_rds("./RDS Files/moon_sentiment2.rds")
+moon_plot <- read_rds("./RDS Files/moon_plot.rds")
 
 # Creating a variable with top 10 words for each level of sentiment 
 top_moon <- moon_sentiment %>%
@@ -130,9 +130,9 @@ top_moon <- moon_sentiment %>%
 
 # National Treasure movie data
 # "Importing" my work from my folder where I did Script Analysis
-nt_sentiment <- read_rds("./nt_sentiment.rds")
-nt_sentiment2 <- read_rds("./nt_sentiment2.rds")
-nt_plot <- read_rds("./nt_plot.rds")
+nt_sentiment <- read_rds("./RDS Files/nt_sentiment.rds")
+nt_sentiment2 <- read_rds("./RDS Files/nt_sentiment2.rds")
+nt_plot <- read_rds("./RDS Files/nt_plot.rds")
 
 # Creating a variable with top 10 words for each level of sentiment 
 top_nt <- nt_sentiment %>%
@@ -147,9 +147,9 @@ top_nt <- nt_sentiment %>%
 
 # National Treasure 2 movie data
 # "Importing" my work from my folder where I did Script Analysis
-nt2_sentiment <- read_rds("./nt2_sentiment.rds")
-nt2_sentiment2 <- read_rds("./nt2_sentiment2.rds")
-nt2_plot <- read_rds("./nt2_plot.rds")
+nt2_sentiment <- read_rds("./RDS Files/nt2_sentiment.rds")
+nt2_sentiment2 <- read_rds("./RDS Files/nt2_sentiment2.rds")
+nt2_plot <- read_rds("./RDS Files/nt2_plot.rds")
 
 # Creating a variable with top 10 words for each level of sentiment 
 top_nt2 <- nt2_sentiment %>%
@@ -164,9 +164,9 @@ top_nt2 <- nt2_sentiment %>%
 
 # The Wicker Man movie data
 # "Importing" my work from my folder where I did Script Analysis
-wicker_sentiment <- read_rds("./wicker_sentiment.rds")
-wicker_sentiment2 <- read_rds("./wicker_sentiment2.rds")
-wicker_plot <- read_rds("./wicker_plot.rds")
+wicker_sentiment <- read_rds("./RDS Files/wicker_sentiment.rds")
+wicker_sentiment2 <- read_rds("./RDS Files/wicker_sentiment2.rds")
+wicker_plot <- read_rds("./RDS Files/wicker_plot.rds")
 
 # Creating a variable with top 10 words for each level of sentiment 
 top_wicker <- wicker_sentiment %>%
