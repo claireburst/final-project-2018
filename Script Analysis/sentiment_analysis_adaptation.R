@@ -35,7 +35,7 @@ adaptation_sentiment <- tidy_adaptation %>%
   inner_join(get_sentiments("bing")) %>%
   count(word, sentiment)
 
-write_rds(adaptation_sentiment, "nicolas_cage_analysis/adaptation_sentiment.rds")
+write_rds(adaptation_sentiment, "nicolas_cage_analysis/RDS Files/adaptation_sentiment.rds")
 
 top_adaptation <- adaptation_sentiment %>%
   # Group by sentiment
@@ -57,7 +57,7 @@ adaptation_sentiment2 <- tidy_adaptation %>%
   arrange(score) %>%
   mutate(average = mean(score))
 
-write_rds(adaptation_sentiment2, "nicolas_cage_analysis/adaptation_sentiment2.rds")
+write_rds(adaptation_sentiment2, "nicolas_cage_analysis/RDS Files/adaptation_sentiment2.rds")
 
 adaptation_sentiment2 %>%
   ggplot(aes(x = score)) + geom_bar(fill = "skyblue")
@@ -69,7 +69,7 @@ adaptation_plot <- tidy_adaptation %>%
   spread(sentiment, n, fill = 0) %>%
   mutate(sentiment = positive - negative)
 
-write_rds(adaptation_plot, "nicolas_cage_analysis/adaptation_plot.rds")
+write_rds(adaptation_plot, "nicolas_cage_analysis/RDS Files/adaptation_plot.rds")
 
 adaptation_plot %>%
   ggplot(aes(index, sentiment, fill = sentiment)) +

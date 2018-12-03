@@ -35,7 +35,7 @@ wicker_sentiment <- tidy_wicker %>%
   inner_join(get_sentiments("bing")) %>%
   count(word, sentiment)
 
-write_rds(wicker_sentiment, "nicolas_cage_analysis/wicker_sentiment.rds")
+write_rds(wicker_sentiment, "nicolas_cage_analysis/RDS Files/wicker_sentiment.rds")
 
 top_wicker <- wicker_sentiment %>%
   # Group by sentiment
@@ -57,7 +57,7 @@ wicker_sentiment2 <- tidy_wicker %>%
   arrange(score) %>%
   mutate(average = mean(score))
 
-write_rds(wicker_sentiment2, "nicolas_cage_analysis/wicker_sentiment2.rds")
+write_rds(wicker_sentiment2, "nicolas_cage_analysis/RDS Files/wicker_sentiment2.rds")
 
 wicker_sentiment2 %>%
   ggplot(aes(x = score)) + geom_bar(fill = "skyblue")
@@ -69,7 +69,7 @@ wicker_plot <- tidy_wicker %>%
   spread(sentiment, n, fill = 0) %>%
   mutate(sentiment = positive - negative)
 
-write_rds(wicker_plot, "nicolas_cage_analysis/wicker_plot.rds")
+write_rds(wicker_plot, "nicolas_cage_analysis/RDS Files/wicker_plot.rds")
 
 wicker_plot %>%
   ggplot(aes(index, sentiment, fill = sentiment)) +
