@@ -240,32 +240,27 @@ ui <- fluidPage(
    # Application title
    titlePanel("Nicolas Cage: an In-Depth Analysis"),
    
-   # Sidebar with a dropdown menu where a user can selected a movie to analyze
-   sidebarLayout(
-      sidebarPanel(
-        selectInput(inputId = "movie",
-                    label = "Select a Nicolas Cage Movie",
-                    choices = movie_options,
-                    multiple = FALSE, 
-                    selected = movie_options[1])
-      ),
-      
-      mainPanel(
         
         # I have different tabs for the user to choose from: movie script
         # analysis, a more general analysis, and an "About" tab. Each one has 
         # several plots/text outputs to be displayed. 
         tabsetPanel(type = "tabs",
-                    tabPanel("Movie Textual Analysis", plotOutput("topwords"), plotOutput("scorefreq"),
-                             plotOutput("plot")),
-                    tabPanel("All Nicolas Cage Movies", plotOutput("mpaacount"), plotlyOutput("time"), 
+                    tabPanel("Movie Textual Analysis", fluid = TRUE, 
+                        sidebarLayout(
+                          sidebarPanel(selectInput(inputId = "movie",
+                                                    label = "Select a Nicolas Cage Movie",
+                                                    choices = movie_options,
+                                                    multiple = FALSE, 
+                                                    selected = movie_options[1])), 
+                      mainPanel(plotOutput("topwords"), plotOutput("scorefreq"), plotOutput("plot")))),
+                    tabPanel("All Nicolas Cage Movies", fluid = TRUE, plotOutput("mpaacount"), plotlyOutput("time"), 
                              htmlOutput("explain"),
                              plotlyOutput("metacritic"), htmlOutput("explain2"), plotOutput("sent")),
-                    tabPanel("About This App", htmlOutput("about")))
+                    tabPanel("About This App", fluid = TRUE, htmlOutput("about")))
     
-      )
+     
    )
-)
+
 
 # Defines the various plots for each tab
 server <- function(input, output) {
