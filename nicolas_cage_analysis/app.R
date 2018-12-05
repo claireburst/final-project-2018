@@ -11,11 +11,13 @@ library(lubridate)
 
 # Adaptation movie data
 # "Importing" my work from my folder where I did Script Analysis
+
 adaptation_sentiment <- read_rds("./RDS Files/adaptation_sentiment.rds")
 adaptation_sentiment2 <- read_rds("./RDS Files/adaptation_sentiment2.rds")
 adaptation_plot <- read_rds("./RDS Files/adaptation_plot.rds")
 
 # Creating a variable with top 10 words for each level of sentiment 
+
 top_adaptation <- adaptation_sentiment %>%
   # Group by sentiment
   group_by(sentiment) %>%
@@ -28,11 +30,13 @@ top_adaptation <- adaptation_sentiment %>%
 
 # Raising Arizona movie data
 # "Importing" my work from my folder where I did Script Analysis
+
 arizona_sentiment <- read_rds("./RDS Files/arizona_sentiment.rds")
 arizona_sentiment2 <- read_rds("./RDS Files/arizona_sentiment2.rds")
 arizona_plot <- read_rds("./RDS Files/arizona_plot.rds")
 
 # Creating a variable with top 10 words for each level of sentiment 
+
 top_arizona <- arizona_sentiment %>%
   # Group by sentiment
   group_by(sentiment) %>%
@@ -45,11 +49,13 @@ top_arizona <- arizona_sentiment %>%
 
 # Con Air movie data
 # "Importing" my work from my folder where I did Script Analysis
+
 con_sentiment <- read_rds("./RDS Files/con_sentiment.rds")
 con_sentiment2 <- read_rds("./RDS Files/con_sentiment2.rds")
 con_plot <- read_rds("./RDS Files/con_plot.rds")
 
 # Creating a variable with top 10 words for each level of sentiment 
+
 top_con <- con_sentiment %>%
   # Group by sentiment
   group_by(sentiment) %>%
@@ -62,11 +68,13 @@ top_con <- con_sentiment %>%
 
 # The Croods movie data
 # "Importing" my work from my folder where I did Script Analysis
+
 croods_sentiment <- read_rds("./RDS Files/croods_sentiment.rds")
 croods_sentiment2 <- read_rds("./RDS Files/croods_sentiment2.rds")
 croods_plot <- read_rds("./RDS Files/croods_plot.rds")
 
 # Creating a variable with top 10 words for each level of sentiment 
+
 top_croods <- croods_sentiment %>%
   # Group by sentiment
   group_by(sentiment) %>%
@@ -79,11 +87,13 @@ top_croods <- croods_sentiment %>%
 
 # Face/Off movie data
 # "Importing" my work from my folder where I did Script Analysis
+
 faceoff_sentiment <- read_rds("./RDS Files/faceoff_sentiment.rds")
 faceoff_sentiment2 <- read_rds("./RDS Files/faceoff_sentiment2.rds")
 faceoff_plot <- read_rds("./RDS Files/faceoff_plot.rds")
 
 # Creating a variable with top 10 words for each level of sentiment 
+
 top_faceoff <- faceoff_sentiment %>%
   # Group by sentiment
   group_by(sentiment) %>%
@@ -96,11 +106,13 @@ top_faceoff <- faceoff_sentiment %>%
 
 # Leaving Las Vegas movie data
 # "Importing" my work from my folder where I did Script Analysis
+
 llv_sentiment <- read_rds("./RDS Files/llv_sentiment.rds")
 llv_sentiment2 <- read_rds("./RDS Files/llv_sentiment2.rds")
 llv_plot <- read_rds("./RDS Files/llv_plot.rds")
 
 # Creating a variable with top 10 words for each level of sentiment 
+
 top_llv <- llv_sentiment %>%
   # Group by sentiment
   group_by(sentiment) %>%
@@ -113,11 +125,13 @@ top_llv <- llv_sentiment %>%
 
 # Moonstruck movie data
 # "Importing" my work from my folder where I did Script Analysis
+
 moon_sentiment <- read_rds("./RDS Files/moon_sentiment.rds")
 moon_sentiment2 <- read_rds("./RDS Files/moon_sentiment2.rds")
 moon_plot <- read_rds("./RDS Files/moon_plot.rds")
 
 # Creating a variable with top 10 words for each level of sentiment 
+
 top_moon <- moon_sentiment %>%
   # Group by sentiment
   group_by(sentiment) %>%
@@ -130,11 +144,13 @@ top_moon <- moon_sentiment %>%
 
 # National Treasure movie data
 # "Importing" my work from my folder where I did Script Analysis
+
 nt_sentiment <- read_rds("./RDS Files/nt_sentiment.rds")
 nt_sentiment2 <- read_rds("./RDS Files/nt_sentiment2.rds")
 nt_plot <- read_rds("./RDS Files/nt_plot.rds")
 
 # Creating a variable with top 10 words for each level of sentiment 
+
 top_nt <- nt_sentiment %>%
   # Group by sentiment
   group_by(sentiment) %>%
@@ -147,11 +163,13 @@ top_nt <- nt_sentiment %>%
 
 # National Treasure 2 movie data
 # "Importing" my work from my folder where I did Script Analysis
+
 nt2_sentiment <- read_rds("./RDS Files/nt2_sentiment.rds")
 nt2_sentiment2 <- read_rds("./RDS Files/nt2_sentiment2.rds")
 nt2_plot <- read_rds("./RDS Files/nt2_plot.rds")
 
 # Creating a variable with top 10 words for each level of sentiment 
+
 top_nt2 <- nt2_sentiment %>%
   # Group by sentiment
   group_by(sentiment) %>%
@@ -164,11 +182,13 @@ top_nt2 <- nt2_sentiment %>%
 
 # The Wicker Man movie data
 # "Importing" my work from my folder where I did Script Analysis
+
 wicker_sentiment <- read_rds("./RDS Files/wicker_sentiment.rds")
 wicker_sentiment2 <- read_rds("./RDS Files/wicker_sentiment2.rds")
 wicker_plot <- read_rds("./RDS Files/wicker_plot.rds")
 
 # Creating a variable with top 10 words for each level of sentiment 
+
 top_wicker <- wicker_sentiment %>%
   # Group by sentiment
   group_by(sentiment) %>%
@@ -180,6 +200,8 @@ top_wicker <- wicker_sentiment %>%
   mutate(sentiment = fct_recode(sentiment, "Positive" = "positive", "Negative" = "negative"))
 
 # Vector for the drop down allowing user to select a movie
+# These are all of the scripts I've previously analyzed and imported RDSs for
+
 movie_options <- c("Adaptation",
                "Con Air",
                "The Croods",
@@ -191,12 +213,15 @@ movie_options <- c("Adaptation",
                "Raising Arizona",
                "The Wicker Man")
 
-# Defining tibbles for the big movie analysis tab
-# This data was given to me by Walter Hickey of FiveThirtyEight, although I had to make some changes
-# and fill in some NA values
+# Defining tibbles for the big movie analysis tab This data was given to me by
+# Walter Hickey of FiveThirtyEight, although I had to make some changes and fill
+# in some NA values
+
 allmovies <- read_excel("./NIC_CAGE.xlsx")
 
 # Cleaning up the all movie data by selecting desired variables and returning proper date format
+# The data variable was a weird class, so I had to manipulate it to a date class
+
 allmovies <- allmovies %>%
   clean_names() %>%
   select(movie, total_box_office, theatrical_release_release_date, running_time, mpaa, metacritic, sentiment) %>%
@@ -204,16 +229,18 @@ allmovies <- allmovies %>%
   mutate(theatrical_release_release_date = ymd(theatrical_release_release_date)) 
 
 # Prepared dataframe for movies for which I have a previously calculated average sentiment
+# Calculated the sentiment for this in my sentiment_analysis_(movie).R files
+
 avgsentiment <- allmovies %>%
   filter(!is.na(sentiment))
   
-# Define UI for application that draws a histogram
+# Define UI for application
 ui <- fluidPage(
    
    # Application title
    titlePanel("Nicolas Cage: an In-Depth Analysis"),
    
-   # Sidebar with a dropdown menu where a user can selected a movie
+   # Sidebar with a dropdown menu where a user can selected a movie to analyze
    sidebarLayout(
       sidebarPanel(
         selectInput(inputId = "movie",
@@ -225,8 +252,9 @@ ui <- fluidPage(
       
       mainPanel(
         
-        # I have different tabs for the user to choose from: movie script analysis, a more general 
-        # analysis, and an "About" tab 
+        # I have different tabs for the user to choose from: movie script
+        # analysis, a more general analysis, and an "About" tab. Each one has 
+        # several plots/text outputs to be displayed. 
         tabsetPanel(type = "tabs",
                     tabPanel("Movie Textual Analysis", plotOutput("topwords"), plotOutput("scorefreq"),
                              plotOutput("plot")),
@@ -289,7 +317,8 @@ server <- function(input, output) {
        color = 'black')
      
      # Created plot with plotly because I wanted you to be able to hover your mouse tip over the
-     # Movie and be able to see movie title
+     # Movie and be able to see movie title.
+     # Also showed line of best fit fitted to mpaa ratings to view potential correlations. 
      ggplotly(tooltip = c("text"),
               ggplot(data = allmovies, aes(x = theatrical_release_release_date, 
                                            y = metacritic, color = mpaa)) + 
@@ -313,7 +342,8 @@ server <- function(input, output) {
      HTML(paste(tags$ul(p(explain))))
    })
    
-   # This is a very simple ggplot that shows how many movies of each MPAA rating exist in my data
+   # This is a very simple bar graph that shows how many movies of each MPAA 
+   # rating exist in my data
    output$mpaacount <- renderPlot({
      
      allmovies %>%
@@ -679,7 +709,7 @@ server <- function(input, output) {
      str4sent <- paste("Sentiment analysis shows that Nicolas Cage’s film career has yielded many films of deeply negative affect as well as relatively positive films. Plotting various aspects of Nicolas Cage’s career has shown that his PG-rated movies have yielded more revenue over time, while his PG-13 and R rated movies vary in box office success. Additionally, over time, there has been a steady decrease in Metacritic scores across each MPAA rating of movie. Finally, average sentiment for each film shows (as expected) that PG films are generally more positive when compared to PG-13 and R rated movies, although R movie average sentiment varies greatly.")
      str5 <- paste("A cautionary warning for interpreting sentiment analysis:")
      str6 <- paste("some words may have duplicate meanings (e.g. 'like' used as a verbal crutch vs. as a verb). This may have influenced the data and should be considered in your interpretations!")
-     str7 <- paste("Also note: movies were excluded from analysis of Nicolas Cage only played a supporting roles. This left 54 movies to be examined (I did not consider movies beyond 2013). In the Metacritic score plot, only 46 movies appear because 8 movies did not have Metacritic scores on IMDB.")
+     str7 <- paste("Also note: movies were excluded from analysis if Nicolas Cage only played a supporting roles. This left 54 movies to be examined (I did not consider movies beyond 2013). In the Metacritic score plot, only 46 movies appear because 8 movies did not have Metacritic scores on IMDB.")
      
      HTML(paste(tags$ul(str00, h3(str0, align = "center"), p(str2), p(str3), p(str4), h3(strsum, align = "center"), p(str4sent), strong(em(str5)), str6, p(p(str7)))))
    })
