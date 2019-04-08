@@ -1,6 +1,6 @@
 # final-project-2018
 
-My final project for GOV1005 (Data): a large scale analysis of Nicolas Cage's filmography. 
+A large scale analysis of Nicolas Cage's filmography. 
 
 American actor Nicolas Cage, star of such films as 'Moonstruck' and 'The Rock,' is known for his intense on- and off-screen personality, as well as his passion for method acting. I am personally a big fan, although many people are not due to his eccentric style and varying successes. 
 
